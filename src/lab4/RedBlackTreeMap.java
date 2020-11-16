@@ -204,17 +204,19 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 	private void singleRotateLeft(Node n) {
 		Node r = n.mRight;
 		n.mRight = r.mLeft;
-		if (r.mLeft != null) {
+
+		if (r.mLeft != null)
 			r.mLeft.mParent = n;
-		}
+
 		r.mParent = n.mParent;
-		if (n.mParent == null) {
+
+		if (n.mParent == null)
 			mRoot = r;
-		} else if (n == n.mParent.mLeft) {
+		else if (n == n.mParent.mLeft)
 			n.mParent.mLeft = r;
-		} else {
+		else
 			n.mParent.mRight = r;
-		}
+
 		r.mLeft = n;
 		n.mParent = r;
 	}
@@ -260,6 +262,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 			}
 		}
 	}
+
 
 	public Node getmRoot(){
 		return mRoot;
