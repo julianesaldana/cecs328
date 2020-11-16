@@ -10,12 +10,12 @@ public class lab4_main {
         RedBlackTreeMap<String, Integer> players = new RedBlackTreeMap<String, Integer>();
 
         int ctr = 0;
-        while (fileScanner.hasNextLine() && ctr < 5){
-            String [] tempArray = fileScanner.nextLine().split(",");
-            int tempHomeruns = Integer.parseInt(tempArray[1]);
-            players.add(tempArray[0], tempHomeruns);
-            System.out.printf("%s : %d\n", tempArray[0], tempHomeruns);
-            ctr++;
+            while (fileScanner.hasNextLine() && ctr < 5){
+                String [] tempArray = fileScanner.nextLine().split(",");
+                int tempHomeruns = Integer.parseInt(tempArray[1]);
+                players.add(tempArray[0], tempHomeruns);
+                System.out.printf("%s : %d\n", tempArray[0], tempHomeruns);
+                ctr++;
         }
 
         System.out.println();
