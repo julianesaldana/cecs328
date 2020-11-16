@@ -84,35 +84,43 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		}
 
 		// case 3: parent, child, uncle are all red. recolor parent and uncle to black and grandparent to red
-		Node grandParent = getGrandparent(n);
-		Node uncle = getUncle(n);
-		if (n.mIsRed && n.mParent.mIsRed && uncle.mIsRed && uncle != null){
-			n.mParent.mIsRed = false;
-			uncle.mIsRed = false;
-			grandParent.mIsRed = true;
-			checkBalance(grandParent);
+		if (getUncle(n) != null) {
+			Node uncle = getUncle(n);
+			Node grandparent = getGrandparent(n);
+			if (uncle.mIsRed) {
+				n.mParent.mIsRed = false;
+				uncle.mIsRed = false;
+				assert grandparent != null;
+				grandparent.mIsRed = true;
+				checkBalance(getGrandparent(n));
+			}
 		}
 
 		// case 4
-		if (n.mParent == grandParent.mLeft){
-			singleRotateLeft(n.mParent);
-			n = n.mLeft;
-		}
-
-		else if (n.mParent == grandParent.mRight){
-			singleRotateRight(n.mParent);
-			n = n.mRight;
+		if (n.mParent != null && getGrandparent(n) != null){
+			Node grandparent = getGrandparent(n);
+			if (n == n.mParent.mRight && n.mParent == grandparent.mLeft){
+				singleRotateLeft(n.mParent);
+				n = n.mLeft;
+			}
+			else if (n == n.mParent.mLeft && n.mParent == grandparent.mRight){
+				singleRotateRight(n.mParent);
+				n = n.mRight;
+			}
 		}
 
 
 		// case 5
-		if (n == n.mParent.mRight || n == grandParent.mRight.mRight)
-			singleRotateRight(grandParent);
-		else
-			singleRotateLeft(grandParent);
-		boolean temp = n.mParent.mIsRed;
-		n.mParent.mIsRed = grandParent.mIsRed;
-		grandParent.mIsRed = temp;
+		if (n.mParent != null && getGrandparent(n) != null){
+			Node grandparent = getGrandparent(n);
+			if (n == n.mParent.mLeft) {
+				singleRotateRight(grandparent);
+			}
+			else
+				singleRotateLeft(grandparent);
+			n.mParent.mIsRed = false;
+			grandparent.mIsRed = true;
+		}
 	}
 
 	// Returns true if the given key is in the tree.
@@ -125,7 +133,6 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 
 	// Prints a pre-order traversal of the tree's nodes, printing the key, value, and color of each node.
 	public void printStructure(Node n) {
-		// TODO: a pre-order traversal. Will need recursion.
 		if (n != NIL_NODE) {
 			System.out.println(n.toString());
 			printStructure(n.mLeft);
@@ -164,6 +171,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 	// Gets the uncle (parent's sibling) of n.
 	private Node getUncle(Node n) {
 		Node grandParent = getGrandparent(n);
+		assert grandParent != null;
 		if (grandParent.mLeft == n.mParent)
 			return grandParent.mRight;
 		else if (grandParent.mRight == n.mParent)
@@ -194,7 +202,6 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 
 	// Rotate the tree left at the given node.
 	private void singleRotateLeft(Node n) {
-		// TODO: do a single left rotation (AVL tree calls this a "rr" rotation at n.
 		Node r = n.mRight;
 		n.mRight = r.mLeft;
 		if (r.mLeft != null) {
@@ -252,5 +259,9 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 				return false; // did NOT insert a new node.
 			}
 		}
+	}
+
+	public Node getmRoot(){
+		return mRoot;
 	}
 }
