@@ -76,7 +76,6 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 			n.mIsRed = false;
 			return;
 		}
-		// handle additional insert cases here.
 
 		// case 2: parent is black
 		if (!n.mParent.mIsRed){
@@ -91,7 +90,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 			checkBalance(getGrandparent(n));
 		}
 
-		// case 4
+		// case 4, parent is red and uncle is black
 		Node parent = n.mParent;
 		Node grandparent = getGrandparent(n);
 
@@ -103,20 +102,8 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 			singleRotateRight(parent);
 			n = n.mRight;
 		}
-//		if (n.mParent != null && getGrandparent(n) != null){
-//			Node grandparent = getGrandparent(n);
-//			if (n == n.mParent.mRight && n.mParent == grandparent.mLeft){
-//				singleRotateLeft(n.mParent);
-//				n = n.mLeft;
-//			}
-//			else if (n == n.mParent.mLeft && n.mParent == grandparent.mRight){
-//				singleRotateRight(n.mParent);
-//				n = n.mRight;
-//			}
-//		}
 
-
-		// case 5
+		// case 5, continuation of other cases
 		parent = n.mParent;
 		grandparent = getGrandparent(n);
 
@@ -127,16 +114,6 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 
 		parent.mIsRed = false;
 		grandparent.mIsRed = true;
-//		if (n.mParent != null && getGrandparent(n) != null){
-//			Node grandparent = getGrandparent(n);
-//			if (n == n.mParent.mLeft) {
-//				singleRotateRight(grandparent);
-//			}
-//			else
-//				singleRotateLeft(grandparent);
-//			n.mParent.mIsRed = false;
-//			grandparent.mIsRed = true;
-//		}
 	}
 
 	// Returns true if the given key is in the tree.
