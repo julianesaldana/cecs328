@@ -42,8 +42,8 @@ public class notes_10_30_20 {
                 return 1 + leftCount + rightCount;
             else
                 return leftCount + rightCount;
-
-            return n != null && (n.value == x || contains(n.left, x) || contains(n.right, x));
+            // FIXME:
+//            return n != null && (n.value == x || contains(n.left, x) || contains(n.right, x));
         }
 
         public boolean contains(Node n, int x){
