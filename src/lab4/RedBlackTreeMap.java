@@ -84,43 +84,59 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		}
 
 		// case 3: parent, child, uncle are all red. recolor parent and uncle to black and grandparent to red
-		if (getUncle(n) != null) {
-			Node uncle = getUncle(n);
-			Node grandparent = getGrandparent(n);
-			if (uncle.mIsRed) {
-				n.mParent.mIsRed = false;
-				uncle.mIsRed = false;
-				assert grandparent != null;
-				grandparent.mIsRed = true;
-				checkBalance(getGrandparent(n));
-			}
+		if (getUncle(n) != null && getUncle(n).mIsRed) {
+			n.mParent.mIsRed = false;
+			getUncle(n).mIsRed = false;
+			getGrandparent(n).mIsRed = true;
+			checkBalance(getGrandparent(n));
 		}
 
 		// case 4
-		if (n.mParent != null && getGrandparent(n) != null){
-			Node grandparent = getGrandparent(n);
-			if (n == n.mParent.mRight && n.mParent == grandparent.mLeft){
-				singleRotateLeft(n.mParent);
-				n = n.mLeft;
-			}
-			else if (n == n.mParent.mLeft && n.mParent == grandparent.mRight){
-				singleRotateRight(n.mParent);
-				n = n.mRight;
-			}
+		Node parent = n.mParent;
+		Node grandparent = getGrandparent(n);
+
+		if (n == parent.mRight && parent == grandparent.mLeft){
+			singleRotateLeft(parent);
+			n = n.mLeft;
 		}
+		else if (n == parent.mLeft && parent == grandparent.mRight){
+			singleRotateRight(parent);
+			n = n.mRight;
+		}
+//		if (n.mParent != null && getGrandparent(n) != null){
+//			Node grandparent = getGrandparent(n);
+//			if (n == n.mParent.mRight && n.mParent == grandparent.mLeft){
+//				singleRotateLeft(n.mParent);
+//				n = n.mLeft;
+//			}
+//			else if (n == n.mParent.mLeft && n.mParent == grandparent.mRight){
+//				singleRotateRight(n.mParent);
+//				n = n.mRight;
+//			}
+//		}
 
 
 		// case 5
-		if (n.mParent != null && getGrandparent(n) != null){
-			Node grandparent = getGrandparent(n);
-			if (n == n.mParent.mLeft) {
-				singleRotateRight(grandparent);
-			}
-			else
-				singleRotateLeft(grandparent);
-			n.mParent.mIsRed = false;
-			grandparent.mIsRed = true;
-		}
+		parent = n.mParent;
+		grandparent = getGrandparent(n);
+
+		if (n == parent.mLeft)
+			singleRotateRight(grandparent);
+		else
+			singleRotateLeft(grandparent);
+
+		parent.mIsRed = false;
+		grandparent.mIsRed = true;
+//		if (n.mParent != null && getGrandparent(n) != null){
+//			Node grandparent = getGrandparent(n);
+//			if (n == n.mParent.mLeft) {
+//				singleRotateRight(grandparent);
+//			}
+//			else
+//				singleRotateLeft(grandparent);
+//			n.mParent.mIsRed = false;
+//			grandparent.mIsRed = true;
+//		}
 	}
 
 	// Returns true if the given key is in the tree.
