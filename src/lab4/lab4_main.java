@@ -18,7 +18,9 @@ public class lab4_main {
             ctr++;
         }
 
-        System.out.println("\nRoot is " + players.getmRoot() + "\n");
+        System.out.println("\nPrint structure using pre-order traversal\n");
         players.printStructure(players.getmRoot());
+
+        System.out.println(players.find("Barry Bonds"));
     }
 }

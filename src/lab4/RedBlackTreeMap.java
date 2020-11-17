@@ -86,7 +86,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 				checkBalance(getGrandparent(n));
 			}
 			else{
-				// case 4, parent is red and uncle is black
+				// case 4, parent is red and uncle is black, node must be LR or RL
 				Node parent = n.mParent;
 				Node grandparent = getGrandparent(n);
 
@@ -99,7 +99,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 					n = n.mRight;
 				}
 
-				// case 5, parent is red and uncle is black
+				// case 5, setup usually from case 4 but can occur without case 4, node can be LL or anything else other than LR/RL
 				parent = n.mParent;
 				grandparent = getGrandparent(n);
 				if (n == parent.mLeft && grandparent.mLeft == parent)
@@ -139,12 +139,17 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		if (currentNode==null || currentNode.mKey == key)
 			return currentNode;
 
-		// Key is greater than root's key
+		// Key is greater than node key
 		if (currentNode.mKey.compareTo(key) > 0)
+			return bstFind(key, currentNode.mLeft);
+		// Key is smaller than node key
+		else if (currentNode.mKey.compareTo(key) < 0)
 			return bstFind(key, currentNode.mRight);
-
-		// Key is smaller than root's key
-		return bstFind(key, currentNode.mLeft);
+		// key is the same as the node key
+		else if (currentNode.mKey.compareTo(key) == 0)
+			return currentNode;
+		else
+			return null;
 	}
 
 
