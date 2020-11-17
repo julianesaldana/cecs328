@@ -79,7 +79,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		// case 2: parent is black
 		if (n.mParent.mIsRed){
 			// case 3: parent, child, uncle are all red. recolor parent and uncle to black and grandparent to red
-			if (getUncle(n) != null && getUncle(n).mIsRed && n.mParent.mIsRed) {
+			if (getUncle(n) != null && getUncle(n).mIsRed) {
 				n.mParent.mIsRed = false;
 				getUncle(n).mIsRed = false;
 				getGrandparent(n).mIsRed = true;
