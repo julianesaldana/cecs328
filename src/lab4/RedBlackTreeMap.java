@@ -1,6 +1,5 @@
 package lab4;
 
-import java.util.*;
 
 // A Map ADT structure using a red-black tree, where keys must implement
 // Comparable.
@@ -60,7 +59,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		Node n = new Node(key, data, true); // nodes start red
 
 		// normal BST insert; n will be placed into its initial position.
-		// returns false if an enisting node was updated (no rebalancing needed)
+		// returns false if an existing node was updated (no rebalancing needed)
 		boolean insertedNew = bstInsert(n, mRoot);
 		if (!insertedNew)
 			return;
@@ -103,13 +102,10 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 			n = n.mRight;
 		}
 
-		// case 5, continuation of other cases
-		parent = n.mParent;
-		grandparent = getGrandparent(n);
-
+		// case 5, parent is red and uncle is black, child is now parent of
 		if (n == parent.mLeft && grandparent.mLeft == parent)
 			singleRotateRight(grandparent);
-		else
+		else if (n == parent.mRight && grandparent.mRight == parent)
 			singleRotateLeft(grandparent);
 
 		parent.mIsRed = false;
