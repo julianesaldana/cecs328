@@ -18,10 +18,7 @@ public class lab4_main {
             ctr++;
         }
 
-
-        System.out.println();
-        System.out.println(players.getmRoot());
-        System.out.println();
+        System.out.println("\nRoot is " + players.getmRoot() + "\n");
         players.printStructure(players.getmRoot());
     }
 }

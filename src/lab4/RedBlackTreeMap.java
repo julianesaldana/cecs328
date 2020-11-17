@@ -60,7 +60,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		Node n = new Node(key, data, true); // nodes start red
 
 		// normal BST insert; n will be placed into its initial position.
-		// returns false if an existing node was updated (no rebalancing needed)
+		// returns false if an enisting node was updated (no rebalancing needed)
 		boolean insertedNew = bstInsert(n, mRoot);
 		if (!insertedNew)
 			return;
@@ -83,7 +83,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		}
 
 		// case 3: parent, child, uncle are all red. recolor parent and uncle to black and grandparent to red
-		if (getUncle(n) != null && getUncle(n).mIsRed) {
+		if (getUncle(n) != null && getUncle(n).mIsRed && n.mParent.mIsRed) {
 			n.mParent.mIsRed = false;
 			getUncle(n).mIsRed = false;
 			getGrandparent(n).mIsRed = true;
@@ -107,7 +107,7 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		parent = n.mParent;
 		grandparent = getGrandparent(n);
 
-		if (n == parent.mLeft)
+		if (n == parent.mLeft && grandparent.mLeft == parent)
 			singleRotateRight(grandparent);
 		else
 			singleRotateLeft(grandparent);
@@ -185,33 +185,33 @@ public class RedBlackTreeMap<TKey extends Comparable<TKey>, TValue> {
 		}
 		else if (p.mLeft == n) {
 			p.mLeft = l;
-		} 
+		}
 		else {
 			p.mRight = l;
 		}
-		
+
 		l.mParent = p;
 	}
 
 	// Rotate the tree left at the given node.
 	private void singleRotateLeft(Node n) {
-		Node r = n.mRight;
-		n.mRight = r.mLeft;
-
-		if (r.mLeft != null)
-			r.mLeft.mParent = n;
-
-		r.mParent = n.mParent;
-
-		if (n.mParent == null)
-			mRoot = r;
-		else if (n == n.mParent.mLeft)
-			n.mParent.mLeft = r;
-		else
-			n.mParent.mRight = r;
-
+		Node r = n.mRight, rl = r.mLeft, p = n.mParent;
+		n.mRight = rl;
+		rl.mParent = n;
 		r.mLeft = n;
 		n.mParent = r;
+
+		if (p == null) { // n is root
+			mRoot = r;
+		}
+		else if (p.mRight == n) {
+			p.mRight = r;
+		}
+		else {
+			p.mLeft = r;
+		}
+
+		r.mParent = p;
 	}
 
 
