@@ -1,6 +1,5 @@
 package lab4;
 
-
 // A Map ADT structure using a red-black tree, where keys must implement
 // Comparable.
 // The key type of a map must be Comparable. Values can be any type.
